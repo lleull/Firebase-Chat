@@ -28,7 +28,35 @@ const Chat = () => {
           </div>
 
         </div>
-        <div className="center"></div>
+        <div className="center">
+          <div className="message">
+            <img src="./avatar.png" alt="" />
+            <div className="texts">
+                         <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Natus nisi voluptate assumenda, repudiandae quam perspiciatis ducimus ad eius, facere consequatur voluptas omnis! Corporis temporibus laudantium dignissimos praesentium, laborum deserunt deleniti!</p>
+              <span>1 min ago</span>
+            </div>
+          </div>
+          <div className="message own">
+            <div className="texts">
+                         <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Natus nisi voluptate assumenda, repudiandae quam perspiciatis ducimus ad eius, facere consequatur voluptas omnis! Corporis temporibus laudantium dignissimos praesentium, laborum deserunt deleniti!</p>
+              <span>1 min ago</span>
+            </div>
+          </div>
+          <div className="message">
+            <img src="./avatar.png" alt="" />
+            <div className="texts">
+                         <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Natus nisi voluptate assumenda, repudiandae quam perspiciatis ducimus ad eius, facere consequatur voluptas omnis! Corporis temporibus laudantium dignissimos praesentium, laborum deserunt deleniti!</p>
+              <span>1 min ago</span>
+            </div>
+          </div>
+          <div className="message own ">
+            <div className="texts">
+                         <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Natus nisi voluptate assumenda, repudiandae quam perspiciatis ducimus ad eius, facere consequatur voluptas omnis! Corporis temporibus laudantium dignissimos praesentium, laborum deserunt deleniti!</p>
+              <span>1 min ago</span>
+            </div>
+          </div>
+          
+        </div>
         <div className="bottom">
           <div className="icons">
           <img src="./img.png" alt="" />
