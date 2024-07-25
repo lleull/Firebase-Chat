@@ -1,3 +1,44 @@
 .details{
     flex: 1;
+  background: red;
+    .user{
+        padding: 30px 20px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 20px;
+        border-bottom: 1px solid #dddddd35;
+
+        img{
+            width: 100px;
+         height: 100px;
+         border-radius: 50%;
+         object-fit: cover;
+        }
+    }
+
+    .info{
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 20px;
+
+        .option{
+
+            .title{
+                display: flex;
+                align-items: center;
+                justify-content: space-between ;
+
+                img{
+                    width: 30px;
+                 height: 30px;
+                 background-color: rgba(17, 25, 40, 0.3);
+                padding: 10px;
+                border-radius: 50%;
+                cursor: pointer;
+                }
+            }
+        }
+    }
 }
