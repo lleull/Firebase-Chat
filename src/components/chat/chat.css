@@ -58,12 +58,17 @@
     .center{
         padding: 20px;
        flex: 1;
-       overflow: scroll;
-       overflow-y: hidden; /* Hide vertical scrollbar */
-       overflow-x: hidden; /* Hide horizontal scrollbar */
+      overflow: scroll;
        display: flex;
        flex-direction: column;
        gap: 20px;
+
+    /* Hide scrollbar */
+    ::-webkit-scrollbar {
+        display: none;
+    }
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 
        .message{
         max-width: 70%;
