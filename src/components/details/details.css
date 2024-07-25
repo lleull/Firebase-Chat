@@ -1,6 +1,7 @@
 .details{
     flex: 1;
-  background: red;
+
+
     .user{
         padding: 30px 20px;
         display: flex;
@@ -19,26 +20,84 @@
 
     .info{
         display: flex;
-        align-items: flex-start;
         flex-direction: column;
         padding: 20px;
+        gap: 30px;
+        justify-content: space-between;
+       
+        button{
+            background: rgb(230, 79, 105, 0.553);
+            padding: 10px 20px;
+            
+            border-radius: 10px;
+            cursor: pointer;
+            color: white;
+            border: none;
+
+            &:hover{
+                background: rgba(25, 11, 13, 0.553);
+
+
+
+            }
+
+        }
+
 
         .option{
 
             .title{
+
                 display: flex;
                 align-items: center;
-                justify-content: space-between ;
+                justify-content: space-between;
 
                 img{
-                    width: 30px;
+                width: 30px;
                  height: 30px;
-                 background-color: rgba(17, 25, 40, 0.3);
+                background-color: rgba(17, 25, 40, 0.3);
                 padding: 10px;
                 border-radius: 50%;
                 cursor: pointer;
                 }
             }
+                .photos{
+                    display: flex;
+                    gap: 20px;
+                    flex-direction: column;margin-top: 10px;padding: 3px;
+
+                    .photoItem{
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+
+                        .photoDetail{
+                            display: flex;
+                            align-items: center;
+                            gap: 20px;
+                            
+
+                            img{
+
+                                width: 40px;
+                                height: 40px;
+                                border-radius: 5px;
+                                object-fit: cover;
+                            }
+                            span{
+                                font-size: 14px;
+                                color: lightgray;
+                                font-weight: 300;
+                            }
+
+                            }
+
+                        
+    
+                    }
+                 
+                }
+
         }
     }
 }

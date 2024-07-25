@@ -30,19 +30,19 @@ const Details = () =>  {
 
           </div>
           <div className="photos">
-            {/* {[1, 2, 3, 4].map((i) => {
+            {[1, 2, 3, 4].map((i) => {
               return (
                 
             <div className="photoItem">
               <div className="photoDetails">
 
-              <img src="https://wallpapers.com/images/featured/just-do-it-vhkb17xnjl1lhd32.jpg" alt="" />
+              <img rc="https://wallpapers.com/images/featured/just-do-it-vhkb17xnjl1lhd32.jpg" alt="" />
               <span>photos_2023.jpg</span>
               </div>
+              <img className='icon' src="./download.png" alt='' />
             </div>
               )
-            })} */}
-            <img src="./download.png" alt='' />
+            })}
           </div>
         </div>
         

@@ -59,6 +59,8 @@
         padding: 20px;
        flex: 1;
        overflow: scroll;
+       overflow-y: hidden; /* Hide vertical scrollbar */
+       overflow-x: hidden; /* Hide horizontal scrollbar */
        display: flex;
        flex-direction: column;
        gap: 20px;
