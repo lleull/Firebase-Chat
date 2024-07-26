@@ -7,7 +7,7 @@
         display: flex;
         align-items: center;
         flex-direction: column;
-        gap: 20px;
+        gap: 15px;
         border-bottom: 1px solid #dddddd35;
 
         img{
@@ -22,12 +22,12 @@
         display: flex;
         flex-direction: column;
         padding: 20px;
-        gap: 30px;
+        gap: 25px;
         justify-content: space-between;
        
         button{
             background: rgb(230, 79, 105, 0.553);
-            padding: 10px 20px;
+            padding: 15px ;
             
             border-radius: 10px;
             cursor: pointer;
@@ -40,6 +40,13 @@
 
 
             }
+
+            &.logout{
+                background: rgba(1, 9, 111, 0.857);
+                padding: 10px ;
+                color: #ffffff;
+                
+                border-radius: 10px;            }
 
         }
 
