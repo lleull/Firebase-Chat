@@ -3,11 +3,9 @@ import { useState } from 'react'
 import "./login.css"
 import { toast } from 'react-toastify'
 import { auth } from '../../lib/firebase'
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { db } from '../../lib/firebase'
 import { setDoc, doc } from 'firebase/firestore'
-import { ref } from 'firebase/storage'
-import { storage } from '../../lib/firebase'
 import upload from '../../lib/upload'
 const Login = () => {
 
@@ -49,7 +47,7 @@ const Login = () => {
             const res = await createUserWithEmailAndPassword(auth, email, password)    
             const imgUrl = await upload(avatar.file)
         
-            await setDoc(doc(db, "users", res.user.uid), {
+            await setDoc(doc(db, "users", res?.user?.uid), {
                 username,
                 email,
                 avatar: imgUrl,
@@ -63,7 +61,7 @@ const Login = () => {
             toast.success("Accout created! you can now login")
             
         } catch (error) {
-            console.log("Errr", error)
+            console.log("Errr", error?.message)
             // toast.error(`${Error.toString()}`)
             
         }
