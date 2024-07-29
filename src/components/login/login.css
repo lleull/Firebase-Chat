@@ -56,6 +56,11 @@
                 cursor: pointer;
                 font-weight: 500;
             }
+            &:disabled{
+                
+                cursor: not-allowed;
+                font-weight: 200;
+            }
 
 
         }
