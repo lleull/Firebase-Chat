@@ -59,7 +59,7 @@ const Login = () => {
                 chats:[]
             })
             
-            toast.success("Accout created! you can now login")
+            toast.success("Account created! you can now login")
             
         } catch (error) {
             console.log("Errr", error?.message)
@@ -95,8 +95,7 @@ const Login = () => {
                   <input type="text" placeholder='Email' name='email' />
                   <input type="text" placeholder='Password' name='password' />
                   <button disabled={loading}>{loading ? "Loading" : "Sign Up"}</button>      
-              </form>
-              
+              </form>             
           </div>
     </div>
   )
