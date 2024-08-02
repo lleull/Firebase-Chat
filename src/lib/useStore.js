@@ -1,8 +1,8 @@
-import { useStore } from "zustand";
+import { create } from "zustand";
 import { getDoc, doc } from "firebase/firestore";
-import { db } from "./firebase";
+import { auth, db } from "./firebase";
 
-const useUserStore = useStore((set) => ({
+const useUserStore = create((set) => ({
     currentUser: null,
     isLoading: true,
     fetchUserInfo: async (uid) => {
@@ -18,11 +18,13 @@ const useUserStore = useStore((set) => ({
             }
             
         } catch (error) {
+            console.log("RErer", error)
 
             
         }
         
     }
+
 }))
 
 export default useUserStore
