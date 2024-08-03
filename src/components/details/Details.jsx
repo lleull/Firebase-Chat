@@ -1,7 +1,15 @@
 import React from 'react'
 import "./details.css"
-
-const Details = () =>  {
+import { signOut } from 'firebase/auth'
+import { auth } from '../../lib/firebase'
+import useUserStore from '../../lib/useStore'
+const Details = () => {
+  const {currentUser} = useUserStore()
+  console.log(currentUser)
+  const handleLogout = () => {
+    auth.signOut()
+    window.location.reload()
+  }
   return (
     <div className='details'>
       <div className="user">
@@ -17,6 +25,7 @@ const Details = () =>  {
           </div>
         </div>
         <div className="option">
+
           <div className="title">
             <span>Privacy & help</span>
             <img src="./arrowUp.png" alt="" />
@@ -53,7 +62,7 @@ const Details = () =>  {
           </div>
         </div> 
         <button>Block User</button>
-        <button className='logout'>Logout</button>
+        <button className='logout' onClick={handleLogout}>Logout</button>
 
       </div>
     </div>

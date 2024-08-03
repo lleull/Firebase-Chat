@@ -3,7 +3,7 @@ import { getDoc, doc } from "firebase/firestore";
 import { auth, db } from "./firebase";
 
 const useUserStore = create((set) => ({
-    currentUser: null,
+    currentUser: false,
     isLoading: true,
     fetchUserInfo: async (uid) => {
         if (!uid) return set({ currentUser: null, isLoading: false }) 

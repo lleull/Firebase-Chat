@@ -35,6 +35,8 @@ const Login = () => {
             console.log("LOGGED", res)
         } catch (error) {
             console.log("err", error)
+             toast.error(`${error}`)
+
             
         } finally {
             setLoading(false)
