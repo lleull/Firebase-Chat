@@ -11,8 +11,9 @@ const Chat = () => {
   const [isOpen, setiOpen] = useState()
   const [chats, setChats] = useState(false)
   const [text, setText] = useState("")
-  const { chatId } = useChatStore()
+  const { chatId, user } = useChatStore()
   const { currentUser } = useUserStore()
+
 
 
   const HandleEmoji = (e) => {
@@ -30,7 +31,8 @@ const Chat = () => {
   useEffect(() => {
     const unSub = onSnapshot(doc(db, "chats", chatId), (res) => {
       setChats(res.data())
-      console.log("chastsss", res.data())
+      console.log("chatatatta", res.data())
+
     })
 
     return () => {
@@ -43,7 +45,7 @@ const Chat = () => {
     if (text === "") return;
     try {
       await updateDoc(doc(db, "chats", chatId), {
-        message: arrayUnion({
+        messages: arrayUnion({
           senderId: currentUser?.id,
           text,
           createdAt: new Date()
@@ -51,22 +53,33 @@ const Chat = () => {
         })
       })
 
-      const userChatRef = doc(db, "userchats", currentUser?.id)
-      const userSnapShot = await getDoc(userChatRef)
-
-      if (userSnapShot?.exists()) {
-        const userChatData = userSnapShot.data()
-        const chatIndex = userChatData.filter(c => c.chatId === chatId)
-        userChatData[chatIndex].lastMessage = text;
-        userChatData[chatIndex].updatedAt = Date.now();
-
-        await updateDoc(userChatRef, {
-          chats: userChatData.chats,
-        })
+      userIDs.forEach(async (id) => {
 
 
+        const userChatRef = doc(db, "userchats", id)
+        const userSnapShot = await getDoc(userChatRef)
 
-      }
+        const userIDs = [currentUser?.id, user?.id];
+        if (userSnapShot?.exists()) {
+          const userChatData = userSnapShot.data()
+          const chatIndex = userChatData.filter(c => c.chatId === chatId)
+
+          userChatData.chats[chatIndex].isSeen = id === currentUser?.id ? true : false;
+
+          userChatData.chats[chatIndex].lastMessage = text;
+          userChatData.chats[chatIndex].updatedAt = Date.now();
+
+          await updateDoc(userChatRef, {
+            chats: userChatData.chats,
+          })
+
+
+
+        }
+      })
+
+
+
 
     } catch (error) {
       console.log("errr", error)
@@ -74,7 +87,8 @@ const Chat = () => {
 
   }
 
-  console.log("chats", chats)
+  console.log("ususus", user)
+
 
   return (
     <div className='chat'>
@@ -96,12 +110,13 @@ const Chat = () => {
       </div>
       <div className="center">
         {chats?.messages?.map((message) => {
+          console.log("Messggsgsggs", message)
           return (
 
-            <div className="message own" key={message.createdAt}>
+            <div className={message?.senderId === currentUser?.id ? "message own" : "message"} key={message.createdAt}>
               <div className="texts">
                 {message?.image && <img src="https://wallpapers.com/images/featured/just-do-it-vhkb17xnjl1lhd32.jpg" alt="" />}
-                {/* <p>{message?.text}</p> */}
+                <p>{message?.text}</p>
                 {/* <span>{message?.createdAt}</span> */}
               </div>
             </div>
@@ -130,7 +145,7 @@ const Chat = () => {
             <EmojiPicker open={isOpen} onEmojiClick={HandleEmoji} />
           </div>
         </div>
-        <button className='sendButton' onClick={() => handleSend}>Send</button>
+        <button type='submit' className='sendButton' onClick={() => handleSend()}>Send</button>
       </div>
     </div>
   )

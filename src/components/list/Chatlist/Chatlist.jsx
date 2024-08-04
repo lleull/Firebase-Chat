@@ -40,7 +40,7 @@ const Chatlist = () => {
   // console.log("USUSUSUChat", chats)
 
   const handleSelect = async (chat) => {
-    changeChat(chat?.chatId)
+    changeChat(chat?.chatId, chat?.user)
   }
   return (
     <div className='chatlist'>
