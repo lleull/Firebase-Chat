@@ -4,6 +4,7 @@
     display: flex;
     align-items: center;
     gap: 100px;
+    justify-content: center;
 
     .item{
         flex: 1;
@@ -21,14 +22,15 @@
             
 
             input{
-                padding: 20px;
+                padding: 20px 50px;
                 border: none;
                 outline: none;
-                background: #241212;
-                color: white;
+                background: #f8f8f8f1;
+                color: rgb(255, 255, 255);
                 border-radius: 5px;
+    
             }
-
+     
             label{
                 display: flex;
                 align-items: center;
@@ -36,13 +38,17 @@
                 justify-content: space-between;
                 cursor: pointer;
                 text-decoration: underline;
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 
                 img{
                     width: 50px;
                     height: 50px;
                     border-radius: 10px;
                     object-fit: cover;
-                    opacity: 0.6;
+                    opacity: 1;
+
+
+    
                 }
             }
 

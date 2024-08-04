@@ -7,37 +7,38 @@ import NotifyCard from "./components/notification/notify"
 import { onAuthStateChanged } from "firebase/auth"
 import { auth } from "./lib/firebase"
 import useUserStore from "./lib/useStore"
+import "./index.css"
 const App = () => {
-  
+
   const { currentUser, isLoading, fetchUserInfo } = useUserStore()
 
-  
+
   useEffect(() => {
     const unSub = onAuthStateChanged(auth, (user) => {
       // console.log("user", user)
-      fetchUserInfo(user.uid) 
+      fetchUserInfo(user.uid)
     });
-    
+
     return () => {
-       unSub()
+      unSub()
     }
-  },[fetchUserInfo])
-  const user = false
+  }, [fetchUserInfo])
+  const user = true
 
   console.log("CURERERE", currentUser)
 
-  // if(isLoading) return <div className="Load">Loading...</div>
+  if (isLoading) return <div className="Loading">Loading...</div>
   return (
     <div className='container'>
-      {currentUser ? 
+      {currentUser ?
         <>
-      <List />
-      <Chat />
-      <Details/>
+          <List />
+          <Chat />
+          <Details />
         </>
         : <Login />}
-      
-      <NotifyCard/>
+
+      <NotifyCard />
     </div>
   )
 }

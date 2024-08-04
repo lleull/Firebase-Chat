@@ -19,13 +19,16 @@ body {
   height: 90vh;
   border-radius: 20px;
   background-color: rgba(17, 25, 40, 0.75);
+  /* background: linear-gradient(rgba(3, 58, 4, 0.82), rgba(255, 255, 255, 0.622), rgba(255, 24, 24, 0.153) ); */
   backdrop-filter: blur(19px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.125);
   flex-direction:row;
   justify-content: space-between;
+
+  
 }
 
-.loading{
+.Loading{
   padding: 50px;
   font-size: 36px;
   border-radius: 10px;

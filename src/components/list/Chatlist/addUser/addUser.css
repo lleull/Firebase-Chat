@@ -6,11 +6,13 @@
    top: 0;
    bottom: 0;
    position: absolute;
-   background-color: rgba(157, 160, 166, 0.918);
+   background-color: rgba(74, 119, 215, 0.918);
    right: 0;
    left: 0;margin: auto;
    align-items: center;
-   
+   z-index: 100;
+   /* animation: user 5s ease-in; */
+
 
 
    form{
@@ -25,11 +27,15 @@
     button{   justify-content: c;
 
         padding: 20px;border-radius: 10px;
+
         background: #1a73e8;
         color: white;
         border: none;
         cursor: pointer;
-
+        &:hover{
+            background: #aa8e8e;
+        
+        }
     }
    }
 
@@ -51,15 +57,25 @@
             height: 50px;
             border-radius: 50%;
             object-fit: cover;
+
+
+
         }
     }
     button{
         padding: 10px;
         border-radius: 10px;
-        background: #1a73e8;
         color: white;
         border: none;
         cursor: pointer;
+        background: #000000;
+&:hover{
+    background: #aa8e8e;
+
+}
+
+
+        
 
     }
 
