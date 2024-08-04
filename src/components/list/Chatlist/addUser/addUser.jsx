@@ -11,7 +11,6 @@ const AddUser = () => {
     const [isLoading, setisLoading] = useState(false)
     const { currentUser } = useUserStore()
 
-
     //Returns a user with the same username of the search inpur and store it in our state
     const handleSearch = async (e) => {
         e.preventDefault()
@@ -45,11 +44,11 @@ const AddUser = () => {
 
     const HandleAdd = async () => {
 
-        const userChatRef = collection(db, "chats")
-        const userRef = collection(db, "userchats")
+        const chatRef = collection(db, "chats")
+        const userChatRef = collection(db, "userchats")
 
         try {
-            const newChatRef = doc(userChatRef)
+            const newChatRef = doc(chatRef)
             await setDoc(newChatRef, {
                 createdAt: serverTimestamp(),
                 messages: [],
@@ -59,7 +58,7 @@ const AddUser = () => {
 
 
             await updateDoc(doc(userChatRef, user?.id), {
-                chatId: arrayUnion({
+                chats: arrayUnion({
                     chatId: newChatRef?.id,
                     lastMessage: "",
                     receiverId: currentUser?.id,
@@ -68,7 +67,7 @@ const AddUser = () => {
             })
 
             await updateDoc(doc(userChatRef, currentUser?.id), {
-                chatId: arrayUnion({
+                chats: arrayUnion({
                     chatId: newChatRef?.id,
                     lastMessage: "",
                     receiverId: user?.id,

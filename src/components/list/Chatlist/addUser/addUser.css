@@ -1,83 +1,94 @@
-.addUser{
+.addUser {
     width: max-content;
     height: max-content;
     padding: 30px;
     border-radius: 10px;
-   top: 0;
-   bottom: 0;
-   position: absolute;
-   background-color: rgba(74, 119, 215, 0.918);
-   right: 0;
-   left: 0;margin: auto;
-   align-items: center;
-   z-index: 100;
-   /* animation: user 5s ease-in; */
-
-
-
-   form{
-    display: flex;
-    gap: 20px;
-
-    input{
-        padding: 20px;border-radius: 10px;
-        border: none;
-        outline: none;
-    }
-    button{   justify-content: c;
-
-        padding: 20px;border-radius: 10px;
-
-        background: #1a73e8;
-        color: white;
-        border: none;
-        cursor: pointer;
-        &:hover{
-            background: #aa8e8e;
-        
-        }
-    }
-   }
-
-   .user{
-    display: flex;
+    top: 0;
+    bottom: 0;
+    position: absolute;
+    background-color: rgba(4, 14, 35, 0.918);
+    right: 0;
+    left: 0;
+    margin: auto;
     align-items: center;
-    justify-content: space-between;
-    margin-top: 15px;
-    width: 100%;
+    z-index: 100;
 
-    .detail{
+    /* animation: user 5s ease-in; */
+
+
+
+    form {
         display: flex;
         gap: 20px;
-        align-items: center;
-        justify-content: center;
+        z-index: 101;
 
-        img{
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            object-fit: cover;
+
+        input {
+            padding: 20px;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+        }
+
+        button {
+            justify-content: c;
+
+            padding: 20px;
+            border-radius: 10px;
+
+            background: #1a73e8;
+            color: white;
+            border: none;
+            cursor: pointer;
+
+            &:hover {
+                background: #aa8e8e;
+
+            }
+        }
+    }
+
+    .user {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 15px;
+        width: 100%;
+
+        .detail {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+
+            img {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                object-fit: cover;
+
+
+
+            }
+        }
+
+        button {
+            padding: 10px;
+            border-radius: 10px;
+            color: white;
+            border: none;
+            cursor: pointer;
+            background: #000000;
+
+            &:hover {
+                background: #aa8e8e;
+
+            }
+
 
 
 
         }
-    }
-    button{
-        padding: 10px;
-        border-radius: 10px;
-        color: white;
-        border: none;
-        cursor: pointer;
-        background: #000000;
-&:hover{
-    background: #aa8e8e;
-
-}
-
-
-        
 
     }
-
-   }
 }
