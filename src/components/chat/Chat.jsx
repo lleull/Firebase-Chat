@@ -2,15 +2,18 @@ import React, { useEffect, useState } from 'react'
 import "./chat.css"
 import { useRef } from 'react'
 import EmojiPicker from 'emoji-picker-react'
-import { doc, onSnapshot } from 'firebase/firestore'
+import { arrayUnion, doc, getDoc, onSnapshot, updateDoc } from 'firebase/firestore'
 import { db } from '../../lib/firebase'
 import useChatStore from '../../lib/useChat'
+import useUserStore from '../../lib/useStore'
 
 const Chat = () => {
   const [isOpen, setiOpen] = useState()
   const [chats, setChats] = useState(false)
   const [text, setText] = useState("")
   const { chatId } = useChatStore()
+  const { currentUser } = useUserStore()
+
 
   const HandleEmoji = (e) => {
     setText((prev) => prev + e?.emoji)
@@ -34,6 +37,42 @@ const Chat = () => {
       unSub()
     }
   }, [chatId])
+
+  const handleSend = async () => {
+
+    if (text === "") return;
+    try {
+      await updateDoc(doc(db, "chats", chatId), {
+        message: arrayUnion({
+          senderId: currentUser?.id,
+          text,
+          createdAt: new Date()
+
+        })
+      })
+
+      const userChatRef = doc(db, "userchats", currentUser?.id)
+      const userSnapShot = await getDoc(userChatRef)
+
+      if (userSnapShot?.exists()) {
+        const userChatData = userSnapShot.data()
+        const chatIndex = userChatData.filter(c => c.chatId === chatId)
+        userChatData[chatIndex].lastMessage = text;
+        userChatData[chatIndex].updatedAt = Date.now();
+
+        await updateDoc(userChatRef, {
+          chats: userChatData.chats,
+        })
+
+
+
+      }
+
+    } catch (error) {
+      console.log("errr", error)
+    }
+
+  }
 
   console.log("chats", chats)
 
@@ -91,7 +130,7 @@ const Chat = () => {
             <EmojiPicker open={isOpen} onEmojiClick={HandleEmoji} />
           </div>
         </div>
-        <button className='sendButton'>Send</button>
+        <button className='sendButton' onClick={() => handleSend}>Send</button>
       </div>
     </div>
   )
