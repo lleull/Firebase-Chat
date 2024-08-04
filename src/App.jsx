@@ -25,7 +25,7 @@ const App = () => {
   }, [fetchUserInfo])
   const user = true
 
-  console.log("CURERERE", currentUser)
+  // console.log("CURERERE", currentUser)
 
   if (isLoading) return <div className="Loading">Loading...</div>
   return (

@@ -1,13 +1,15 @@
 import React from 'react'
 import "./addUser.css"
 import { useState, useEffect } from 'react'
-import { getDoc, collection, where, query, getDocs, setDoc, serverTimestamp, updateDoc, doc } from 'firebase/firestore'
+import { getDoc, collection, where, query, getDocs, setDoc, serverTimestamp, updateDoc, doc, arrayUnion } from 'firebase/firestore'
 import { db } from '../../../../lib/firebase'
 import { toast } from 'react-toastify'
+import useUserStore from '../../../../lib/useStore'
 
 const AddUser = () => {
     const [user, setuser] = useState(null)
     const [isLoading, setisLoading] = useState(false)
+    const { currentUser } = useUserStore()
 
 
     //Returns a user with the same username of the search inpur and store it in our state
@@ -53,9 +55,26 @@ const AddUser = () => {
                 messages: [],
             })
             console.log("Chatid 22s", newChatRef?.id)
-            toast.success(`${user?.username} Succesfully Added`)
+            // toast.success(`${user?.username} Succesfully Added`)
+
+
             await updateDoc(doc(userChatRef, user?.id), {
-                chatId: newChatRef?.id
+                chatId: arrayUnion({
+                    chatId: newChatRef?.id,
+                    lastMessage: "",
+                    receiverId: currentUser?.id,
+                    updatedAt: Date.now()
+                })
+            })
+
+            await updateDoc(doc(userChatRef, currentUser?.id), {
+                chatId: arrayUnion({
+                    chatId: newChatRef?.id,
+                    lastMessage: "",
+                    receiverId: user?.id,
+                    updatedAt: Date.now()
+
+                })
             })
 
         } catch (error) {

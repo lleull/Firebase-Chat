@@ -7,15 +7,15 @@ import { doc, getDocs, onSnapshot } from "firebase/firestore";
 import { db } from '../../../lib/firebase'
 const Chatlist = () => {
   const [addMode, setaddMode] = useState(false)
-  const [chats, setChats] = useState([])
+  const [chats, setChats] = useState(null)
   const { currentUser } = useUserStore()
 
   useEffect(() => {
     const unSub = onSnapshot(doc(db, "userchats", currentUser?.id), async (res) => {
       const items = res.data().chats
 
-      const Promises = items.map(async (item) => {
-        const userDocRef = doc(db, "users", item?.id);
+      const Promises = items?.map(async (item) => {
+        const userDocRef = doc(db, "users", item?.receiverId);
         const userDocSnap = await getDocs(userDocRef)
 
         const user = userDocSnap.data()
@@ -45,24 +45,20 @@ const Chatlist = () => {
 
       </div>
 
-      <Fragment>
+      {chats?.map((user) => {
+        return (
+          <Fragment>
+            <div className="item">
+              <img src={user?.avatar || "./avatar.png"} alt="s" />
+              <div className="texts">
+                <span>{user.username}</span>
+                <p>Hello</p>
+              </div>
+            </div>
 
-        <div className="item">
-          <img src="./avatar.png" alt="s" />
-          <div className="texts">
-            <span>Leul Mekonnen</span>
-            <p>Hello</p>
-          </div>
-        </div>
-        <div className="item">
-          <img src="./avatar.png" alt="s" />
-          <div className="texts">
-            <span>Leul Mekonnen</span>
-            <p>Hello</p>
-          </div>
-        </div>
-      </Fragment>
-
+          </Fragment>
+        )
+      })}
       {addMode ?
 
         <div className='overlay'>
