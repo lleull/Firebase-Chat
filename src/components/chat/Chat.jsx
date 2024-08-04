@@ -4,13 +4,13 @@ import { useRef } from 'react'
 import EmojiPicker from 'emoji-picker-react'
 import { doc, onSnapshot } from 'firebase/firestore'
 import { db } from '../../lib/firebase'
+import useChatStore from '../../lib/useChat'
 
 const Chat = () => {
   const [isOpen, setiOpen] = useState()
   const [chats, setChats] = useState(false)
-
-
   const [text, setText] = useState("")
+  const { chatId } = useChatStore()
 
   const HandleEmoji = (e) => {
     setText((prev) => prev + e?.emoji)
@@ -25,14 +25,15 @@ const Chat = () => {
 
 
   useEffect(() => {
-    const unSub = onSnapshot(doc(db, "chats", "D2Cz4EkA7iYqpGSafDRv"), (res) => {
+    const unSub = onSnapshot(doc(db, "chats", chatId), (res) => {
       setChats(res.data())
+      console.log("chastsss", res.data())
     })
 
     return () => {
       unSub()
     }
-  }, [])
+  }, [chatId])
 
   console.log("chats", chats)
 
@@ -55,34 +56,25 @@ const Chat = () => {
 
       </div>
       <div className="center">
-        <div className="message">
-          <img src="./avatar.png" alt="" />
-          <div className="texts">
-            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Natus nisi voluptate assumenda, repudiandae quam perspiciatis ducimus ad eius, facere consequatur voluptas omnis! Corporis temporibus laudantium dignissimos praesentium, laborum deserunt deleniti!</p>
-            <span>1 min ago</span>
-          </div>
-        </div>
-        <div className="message own">
-          <div className="texts">
-            <img src="https://wallpapers.com/images/featured/just-do-it-vhkb17xnjl1lhd32.jpg" alt="" />
-            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Natus nisi voluptate assumenda, repudiandae quam perspiciatis ducimus ad eius, facere consequatur voluptas omnis! Corporis temporibus laudantium dignissimos praesentium, laborum deserunt deleniti!</p>
-            <span>1 min ago</span>
-          </div>
-        </div>
-        <div className="message">
-          <img src="./avatar.png" alt="" />
-          <div className="texts">
-            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Natus nisi voluptate assumenda, repudiandae quam perspiciatis ducimus ad eius, facere consequatur voluptas omnis! Corporis temporibus laudantium dignissimos praesentium, laborum deserunt deleniti!</p>
-            <span>1 min ago</span>
-          </div>
-        </div>
-        <div className="message own ">
-          <div className="texts">
-            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Natus nisi voluptate assumenda, repudiandae quam perspiciatis ducimus ad eius, facere consequatur voluptas omnis! Corporis temporibus laudantium dignissimos praesentium, laborum deserunt deleniti!</p>
-            <span>1 min ago</span>
-          </div>
-        </div>
+        {chats?.messages?.map((message) => {
+          return (
 
+            <div className="message own" key={message.createdAt}>
+              <div className="texts">
+                {message?.image && <img src="https://wallpapers.com/images/featured/just-do-it-vhkb17xnjl1lhd32.jpg" alt="" />}
+                {/* <p>{message?.text}</p> */}
+                {/* <span>{message?.createdAt}</span> */}
+              </div>
+            </div>
+          )
+        })}
+        {/* <div className="message">
+          <img src="./avatar.png" alt="" />
+          <div className="texts">
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Natus nisi voluptate assumenda, repudiandae quam perspiciatis ducimus ad eius, facere consequatur voluptas omnis! Corporis temporibus laudantium dignissimos praesentium, laborum deserunt deleniti!</p>
+            <span>1 min ago</span>
+          </div>
+        </div> */}
         <div ref={endRef} />
       </div>
       <div className="bottom">

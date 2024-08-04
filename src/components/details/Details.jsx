@@ -3,8 +3,10 @@ import "./details.css"
 import { signOut } from 'firebase/auth'
 import { auth } from '../../lib/firebase'
 import useUserStore from '../../lib/useStore'
+import useChatStore from '../../lib/useChat'
 const Details = () => {
   const { currentUser } = useUserStore()
+  const { changeBlock } = useChatStore
   // console.log(currentUser)
   const handleLogout = () => {
     auth.signOut()
