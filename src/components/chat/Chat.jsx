@@ -10,19 +10,22 @@ import upload from '../../lib/upload'
 const Chat = () => {
   const [isOpen, setiOpen] = useState()
   const [chats, setChats] = useState(false)
+
   const [img, setImg] = useState({
     file: null,
     url: ""
   })
 
   const [text, setText] = useState("")
-  const { chatId, user } = useChatStore()
+  const { chatId, user, isRecieverBlocked, isCurrentUserBlocked } = useChatStore()
   const { currentUser } = useUserStore()
 
 
   useEffect(() => {
     console.log("imgeeererer", img.url)
-  }, [chatId])
+    console.log("Blocked", isRecieverBlocked)
+
+  }, [isRecieverBlocked])
 
 
 
@@ -184,7 +187,7 @@ const Chat = () => {
           <img src="./camera.png" alt="" />
           <img src="./mic.png" alt="" />
         </div>
-        <input onChange={(e) => setText(e?.target?.value)} value={text} type="text" placeholder='Type a message...' />
+        <input disabled={isRecieverBlocked || isCurrentUserBlocked} onChange={(e) => setText(e?.target?.value)} value={text} type="text" placeholder={isRecieverBlocked || isCurrentUserBlocked ? "You are blocked " : 'Type a message...'} />
         <div className="emoji">
           <img src="./emoji.png" alt="" onClick={() => setiOpen(prev => !prev)} />
           <div className="picket">
@@ -192,7 +195,7 @@ const Chat = () => {
             <EmojiPicker open={isOpen} onEmojiClick={HandleEmoji} />
           </div>
         </div>
-        <button type='submit' className='sendButton' onClick={() => handleSend()}>Send</button>
+        <button disabled={isRecieverBlocked || isCurrentUserBlocked} type='submit' className='sendButton' onClick={() => handleSend()}>Send</button>
       </div>
     </div>
   )

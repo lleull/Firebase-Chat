@@ -161,6 +161,11 @@
             border-radius: 20px;
             font-size: 16px;
 
+            &:disabled {
+                background: #13161c;
+                cursor: not-allowed;
+
+            }
 
         }
 
@@ -181,6 +186,13 @@
             border-radius: 5px;
             border: none;
             cursor: pointer;
+
+
+            &:disabled {
+                background: #13161c;
+                cursor: not-allowed;
+
+            }
 
         }
 
