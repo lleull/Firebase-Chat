@@ -6,23 +6,39 @@ import { arrayUnion, doc, getDoc, onSnapshot, updateDoc } from 'firebase/firesto
 import { db } from '../../lib/firebase'
 import useChatStore from '../../lib/useChat'
 import useUserStore from '../../lib/useStore'
-
+import upload from '../../lib/upload'
 const Chat = () => {
   const [isOpen, setiOpen] = useState()
   const [chats, setChats] = useState(false)
+  const [img, setImg] = useState({
+    file: null,
+    url: ""
+  })
+
   const [text, setText] = useState("")
   const { chatId, user } = useChatStore()
   const { currentUser } = useUserStore()
 
+
   useEffect(() => {
-    console.log("Receiever user", user)
+    console.log("imgeeererer", img.url)
   }, [chatId])
+
 
 
 
   const HandleEmoji = (e) => {
     setText((prev) => prev + e?.emoji)
     setiOpen(false)
+  }
+
+  const handleImage = (e) => {
+    if (e.target.files[0]) {
+      setImg({
+        file: e.target.files[0],
+        url: URL.createObjectURL(e.target.files[0])
+      })
+    }
   }
 
   const endRef = useRef(null)
@@ -45,13 +61,24 @@ const Chat = () => {
 
   const handleSend = async () => {
 
-    if (text === "") return;
+    if (text === "" && img.url === "") return;
+
+
+    console.log("imag", img.file)
+
+
+    let imgUrl = null
     try {
+      if (img.file) {
+        console.log("imag", img.file)
+        imgUrl = await upload(img.file)
+      }
       await updateDoc(doc(db, "chats", chatId), {
         messages: arrayUnion({
           senderId: currentUser?.id,
           text,
-          createdAt: new Date()
+          createdAt: new Date(),
+          ...(imgUrl && { img: imgUrl })
 
         })
       })
@@ -89,7 +116,12 @@ const Chat = () => {
         }
       })
 
+      setImg({
+        file: null,
+        url: ""
+      })
 
+      setText("")
 
 
     } catch (error) {
@@ -97,6 +129,7 @@ const Chat = () => {
     }
 
   }
+
 
 
 
@@ -124,25 +157,30 @@ const Chat = () => {
 
             <div className={message?.senderId === currentUser?.id ? "message own" : "message"} key={message.createdAt}>
               <div className="texts">
-                {message?.image && <img src="https://wallpapers.com/images/featured/just-do-it-vhkb17xnjl1lhd32.jpg" alt="" />}
-                <p>{message?.text}</p>
+                {message?.img && <img src={message?.img} alt="" />}
+                <p>{message?.text !== "" && message?.text}</p>
                 {/* <span>{message?.createdAt}</span> */}
               </div>
             </div>
           )
         })}
-        {/* <div className="message">
-          <img src="./avatar.png" alt="" />
-          <div className="texts">
-            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Natus nisi voluptate assumenda, repudiandae quam perspiciatis ducimus ad eius, facere consequatur voluptas omnis! Corporis temporibus laudantium dignissimos praesentium, laborum deserunt deleniti!</p>
-            <span>1 min ago</span>
+        {img.url &&
+          <div className="message own">
+
+            <div className="texts">
+              <img src={img.url ? img?.url : ""} alt="" />
+
+            </div>
           </div>
-        </div> */}
+        }
         <div ref={endRef} />
       </div>
       <div className="bottom">
         <div className="icons">
-          <img src="./img.png" alt="" />
+          <label htmlFor="file">
+            <img src="./img.png" alt="" />
+          </label>
+          <input type='file' id='file' style={{ display: "none" }} onChange={handleImage} />
           <img src="./camera.png" alt="" />
           <img src="./mic.png" alt="" />
         </div>

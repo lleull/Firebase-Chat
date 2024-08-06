@@ -39,6 +39,8 @@ const Chatlist = () => {
       const { user, ...rest } = item
       return rest;
     })
+    console.log("item", chat)
+    // const filterNotSeen = 
 
     const chatIndex = userChats.findIndex((i) => i.chatId === chat.chatId)
 
