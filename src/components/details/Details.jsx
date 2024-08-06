@@ -1,13 +1,15 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import "./details.css"
 import { signOut } from 'firebase/auth'
 import { auth, db } from '../../lib/firebase'
 import useUserStore from '../../lib/useStore'
 import useChatStore from '../../lib/useChat'
-import { arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore'
+import { arrayRemove, arrayUnion, doc, onSnapshot, updateDoc } from 'firebase/firestore'
 const Details = () => {
   const { currentUser } = useUserStore()
-  const { changeBlock, user, isRecieverBlocked, isCurrentUserBlocked } = useChatStore()
+  const { changeBlock, user, isRecieverBlocked, isCurrentUserBlocked, chatId } = useChatStore()
+  const [chats, setChats] = useState()
+
   // console.log(currentUser)
   const handleLogout = () => {
     auth.signOut()
@@ -27,6 +29,21 @@ const Details = () => {
 
     }
   }
+  useEffect(() => {
+    const unSub = onSnapshot(doc(db, "chats", chatId), (res) => {
+      setChats(res.data())
+
+    })
+
+    return () => {
+      unSub()
+    }
+  }, [chatId])
+
+  const filterImages = chats?.messages.filter(i => i.img)
+
+
+
 
   return (
     <div className='details'>
@@ -57,14 +74,14 @@ const Details = () => {
 
           </div>
           <div className="photos">
-            {[1, 2, 3, 4].map((i) => {
+            {filterImages?.map((i, index) => {
               return (
 
                 <div className="photoItem">
                   <div className="photoDetails">
 
-                    <img src="https://wallpapers.com/images/featured/just-do-it-vhkb17xnjl1lhd32.jpg" alt="" />
-                    <span>photos_2023.jpg</span>
+                    <img src={i?.img} alt="" />
+                    <span>img{index + 1}</span>
                   </div>
                   <img className='icon' src="./download.png" alt='' />
                 </div>
