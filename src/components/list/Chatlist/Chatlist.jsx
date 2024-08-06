@@ -10,8 +10,10 @@ const Chatlist = () => {
   const [addMode, setaddMode] = useState(false)
   const [chats, setChats] = useState()
   const { currentUser } = useUserStore()
-  const { changeChat } = useChatStore()
+  const { changeChat, user } = useChatStore()
 
+
+  console.log("chats", chats)
 
   useEffect(() => {
     const unSub = onSnapshot(doc(db, "userchats", currentUser?.id), async (res) => {
@@ -40,8 +42,11 @@ const Chatlist = () => {
   // console.log("USUSUSUChat", chats)
 
   const handleSelect = async (chat) => {
-    changeChat(chat?.chatId, chat?.user)
+    console.log("chats", chat)
+    await changeChat(chat?.chatId, chat?.user)
   }
+
+
   return (
     <div className='chatlist'>
       <div className="search">
@@ -56,11 +61,13 @@ const Chatlist = () => {
       {chats?.map((chat) => {
         return (
           <Fragment>
-            <div onClick={() => handleSelect(chat)} className="item">
+            <div onClick={() => handleSelect(chat)} className="item" style={{
+              backgroundColor: chat?.isSeen ? "" : "blue"
+            }}>
               <img src={chat.user?.avatar || "./avatar.png"} alt="s" />
               <div className="texts">
                 <span>{chat?.user.username}</span>
-                <p>Hello</p>
+                <p>{chat.lastMessage}</p>
               </div>
             </div>
 

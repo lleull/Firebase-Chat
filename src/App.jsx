@@ -23,11 +23,10 @@ const App = () => {
       unSub()
     }
   }, [fetchUserInfo])
-  const user = true
+  const user = false
 
-  // console.log("CURERERE", currentUser)
 
-  if (isLoading) return <div className="Loading">Loading...</div>
+  // if (isLoading) return <div className="Loading">Loading...</div>
   return (
     <div className='container'>
       {currentUser ?

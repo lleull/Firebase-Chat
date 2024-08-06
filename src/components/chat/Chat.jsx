@@ -14,6 +14,10 @@ const Chat = () => {
   const { chatId, user } = useChatStore()
   const { currentUser } = useUserStore()
 
+  useEffect(() => {
+    console.log("Receiever user", user)
+  }, [chatId])
+
 
 
   const HandleEmoji = (e) => {
@@ -31,7 +35,6 @@ const Chat = () => {
   useEffect(() => {
     const unSub = onSnapshot(doc(db, "chats", chatId), (res) => {
       setChats(res.data())
-      console.log("chatatatta", res.data())
 
     })
 
@@ -53,27 +56,35 @@ const Chat = () => {
         })
       })
 
+      const userIDs = [currentUser?.id, user?.id];
       userIDs.forEach(async (id) => {
 
 
         const userChatRef = doc(db, "userchats", id)
         const userSnapShot = await getDoc(userChatRef)
 
-        const userIDs = [currentUser?.id, user?.id];
         if (userSnapShot?.exists()) {
           const userChatData = userSnapShot.data()
-          const chatIndex = userChatData.filter(c => c.chatId === chatId)
+          const chatIndex = userChatData.chats.findIndex(c => c.chatId === chatId)
+          console.log("Chat index", chatIndex)
 
-          userChatData.chats[chatIndex].isSeen = id === currentUser?.id ? true : false;
+          if (chatIndex !== -1) {
+            console.log('Chat data before update:', userChatData.chats[chatIndex]);
 
-          userChatData.chats[chatIndex].lastMessage = text;
-          userChatData.chats[chatIndex].updatedAt = Date.now();
+            userChatData.chats[chatIndex].isSeen = id === currentUser?.id ? true : false;
 
-          await updateDoc(userChatRef, {
-            chats: userChatData.chats,
-          })
+            userChatData.chats[chatIndex].lastMessage = text;
+            userChatData.chats[chatIndex].updatedAt = Date.now();
+
+            console.log('Chat data After update:', userChatData.chats[chatIndex]);
 
 
+            await updateDoc(userChatRef, {
+              chats: userChatData.chats,
+            })
+
+
+          }
 
         }
       })
@@ -87,16 +98,15 @@ const Chat = () => {
 
   }
 
-  console.log("ususus", user)
 
 
   return (
     <div className='chat'>
       <div className="top">
         <div className="user">
-          <img src="./avatar.png" alt="" />
+          <img src={user?.avatar || "./avatar.png"} alt="" />
           <div className="texts">
-            <span>Leul Moke </span>
+            <span>{user?.username}</span>
             <p>Tell me ipsum dolor sit amet cribus.</p>
           </div>
         </div>
@@ -110,7 +120,6 @@ const Chat = () => {
       </div>
       <div className="center">
         {chats?.messages?.map((message) => {
-          console.log("Messggsgsggs", message)
           return (
 
             <div className={message?.senderId === currentUser?.id ? "message own" : "message"} key={message.createdAt}>

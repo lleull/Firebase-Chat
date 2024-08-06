@@ -9,10 +9,11 @@ const useChatStore = create((set) => ({
     isRecieverBlocked: false,
     blocked: [],
     changeChat: async (chatId, user) => {
+
         const currentUser = await useUserStore.getState().currentUser
 
         // CHECK IF CURRENT USER IS BLOCKED
-        if (user?.blocked.includes(currentUser.id)) {
+        if (user.blocked.includes(currentUser.id)) {
 
             return set({
 
@@ -20,30 +21,32 @@ const useChatStore = create((set) => ({
                 user: null,
                 isCurrentUserBlocked: true,
                 isRecieverBlocked: false,
-            })
+            });
 
         } else if
             // CHECK IF RECIEVER USER IS BLOCKED
-            (!currentUser.blocked.includes(currentUser.id)) {
+
+
+            (currentUser.blocked.includes(currentUser.id)) {
 
             return set({
-
                 chatId,
                 user: null,
                 isCurrentUserBlocked: true,
                 isRecieverBlocked: false,
-            })
-        } else
+            });
+        } else {
 
             set({
-
                 chatId,
                 user,
                 isCurrentUserBlocked: false,
                 isRecieverBlocked: false,
-            })
-    },
+            });
 
+        }
+
+    },
     changeBlock: () => {
         set(state => ({
             ...state, isRecieverBlocked: !state.isRecieverBlocked
