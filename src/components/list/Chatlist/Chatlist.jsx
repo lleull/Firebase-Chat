@@ -3,18 +3,14 @@ import "./chatlist.css"
 import { useState } from 'react'
 import AddUser from './addUser/addUser'
 import useUserStore from '../../../lib/useStore'
-import { doc, getDoc, getDocs, onSnapshot } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from '../../../lib/firebase'
 import useChatStore from '../../../lib/useChat'
 const Chatlist = () => {
   const [addMode, setaddMode] = useState(false)
   const [chats, setChats] = useState()
   const { currentUser } = useUserStore()
-  const { changeChat, user } = useChatStore()
-
-
-  console.log("chats", chats)
-
+  const { changeChat, user, chatId } = useChatStore()
   useEffect(() => {
     const unSub = onSnapshot(doc(db, "userchats", currentUser?.id), async (res) => {
       const items = res.data().chats
@@ -23,9 +19,6 @@ const Chatlist = () => {
       const Promises = items?.map(async (item) => {
         const userDocRef = doc(db, "users", item?.receiverId)
         const userDocSnap = await getDoc(userDocRef)
-
-
-
         const user = userDocSnap.data()
 
         return { ...item, user }
@@ -42,8 +35,27 @@ const Chatlist = () => {
   // console.log("USUSUSUChat", chats)
 
   const handleSelect = async (chat) => {
-    console.log("chats", chat)
-    await changeChat(chat?.chatId, chat?.user)
+    const userChats = chats.map((item) => {
+      const { user, ...rest } = item
+      return rest;
+    })
+
+    const chatIndex = userChats.findIndex((i) => i.chatId === chat.chatId)
+
+    console.log("chatIndex", chatIndex)
+    userChats[chatIndex].isSeen = true;
+    const userChatRef = doc(db, "userchats", currentUser.id);
+
+    try {
+      await updateDoc(userChatRef, {
+        chats: userChats
+      })
+      await changeChat(chat?.chatId, chat?.user)
+
+    } catch (error) {
+      console.log("err", error)
+
+    }
   }
 
 
@@ -62,7 +74,7 @@ const Chatlist = () => {
         return (
           <Fragment>
             <div onClick={() => handleSelect(chat)} className="item" style={{
-              backgroundColor: chat?.isSeen ? "" : "blue"
+              backgroundColor: chat?.isSeen ? "transparent" : "blue"
             }}>
               <img src={chat.user?.avatar || "./avatar.png"} alt="s" />
               <div className="texts">
