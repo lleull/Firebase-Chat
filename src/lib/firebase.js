@@ -1,29 +1,23 @@
-
-import React from "react";
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
-import { getStorage } from "firebase/storage";
+import React from 'react'
+import { initializeApp } from 'firebase/app'
+import { getAnalytics } from 'firebase/analytics'
+import { getAuth } from 'firebase/auth'
+import { getFirestore } from 'firebase/firestore'
+import { getStorage } from 'firebase/storage'
 const firebaseConfig = {
-  apiKey: "AIzaSyB73C3deb-xwKQT3Iuva6hyvDxCmzayXuY",
-  authDomain: "firstapp-57210.firebaseapp.com",
-  projectId: "firstapp-57210",
-  storageBucket: "firstapp-57210.appspot.com",
-  messagingSenderId: "963738841306",
-  appId: "1:963738841306:web:a63202a4def9cc65c135e3",
-  measurementId: "G-7H1XYZ5HFW"
-};
+  apiKey: 'AIzaSyCx9-M6gWLZPZDe6QxgDooD4k_Qxu8SE2Q',
+  authDomain: 'e-learn-1de82.firebaseapp.com',
+  projectId: 'e-learn-1de82',
+  storageBucket: 'e-learn-1de82.firebasestorage.app',
+  messagingSenderId: '199623523448',
+  appId: '1:199623523448:web:999dc0cd3bae39646b018d',
+  measurementId: 'G-R6TCZQYQFP',
+}
 
 // Initialize Firebase
-export const app = initializeApp(firebaseConfig);
-export const analytics = getAnalytics(app);
-
+export const app = initializeApp(firebaseConfig)
+export const analytics = getAnalytics(app)
 
 export const auth = getAuth(app)
 export const db = getFirestore(app)
 export const storage = getStorage(app)
-
-
-
-
