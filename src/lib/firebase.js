@@ -4,8 +4,9 @@ import { getAnalytics } from 'firebase/analytics'
 import { getAuth } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
 import { getStorage } from 'firebase/storage'
+
 const firebaseConfig = {
-  apiKey: 'AIzaSyCx9-M6gWLZPZDe6QxgDooD4k_Qxu8SE2Q',
+  apiKey: process?.env.FIRE_BASE_KEY,
   authDomain: 'e-learn-1de82.firebaseapp.com',
   projectId: 'e-learn-1de82',
   storageBucket: 'e-learn-1de82.firebasestorage.app',
